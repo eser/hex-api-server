@@ -15,10 +15,11 @@ class apiServer {
     constructor() {
         this.events = new EventEmitter();
         this.routers = {};
-        this.variables = {};
-        this.cmdMode = false;
 
         this.protocolException = protocolException;
+
+        this.cmdMode = (process.env.HEX_CMD === '1');
+        this.register('apiServer', this);
     }
 
     init(options) {
@@ -44,6 +45,11 @@ class apiServer {
 
         this.loadFrontControllers();
         this.events.emit('loadFrontController');
+
+        if (this.cmdMode) {
+            this.loadControllers();
+            this.events.emit('loadController');
+        }
     }
 
     initHooks() {
@@ -154,6 +160,23 @@ class apiServer {
         );
     }
 
+    loadControllers() {
+        this.controllers = {};
+
+        this.readDir(
+            'src/controllers',
+            (file, dir) => {
+                const stat = fs.statSync(dir + '/' + file);
+
+                if (stat.isFile()) {
+                    const basename = path.basename(file, '.js');
+
+                    this.controllers[basename] = require(`${dir}/${file}`);
+                }
+            }
+        );
+    }
+
     addRouter(route, callback) {
         const routerInstance = new router(route, this);
 
@@ -179,19 +202,8 @@ class apiServer {
     }
 
     register(name, variable) {
-        this.variables[name] = variable;
-
         if (this.cmdMode) {
             global[name] = variable;
-        }
-    }
-
-    cmd() {
-        this.cmdMode = true;
-
-        global.apiServer = this;
-        for (let variable in this.variables) {
-            global[variable] = this.variables[variable];
         }
     }
 }
