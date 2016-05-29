@@ -2,7 +2,7 @@
   "name": "hex-api-server",
   "description": "Hex Api Server",
   "keywords": [],
-  "version": "0.3.4",
+  "version": "0.3.5",
   "homepage": "",
   "author": "Eser Ozvataf <eser@ozvataf.com>",
   "contributors": [
@@ -34,7 +34,7 @@
     "bin"
   ],
   "bin": {
-    "sey": "./bin/sey"
+    "swagger-docs": "./bin/swagger-docs"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
