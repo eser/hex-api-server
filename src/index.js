@@ -8,6 +8,7 @@ const express = require('express'),
     methodOverride = require('method-override'),
     i18n = require('i18n'),
     deepmerge = require('deepmerge'),
+    swaggerJsdoc = require('swagger-jsdoc'),
     router = require('./router.js'),
     protocolException = require('./exceptions/protocolException.js');
 
@@ -132,12 +133,13 @@ class apiServer {
         this.readDir(
             'src/routing/filters',
             (file, dir) => {
-                const stat = fs.statSync(`${dir}/${file}`);
+                const filepath = `${dir}/${file}`,
+                    stat = fs.statSync(filepath);
 
                 if (stat.isFile()) {
                     const basename = path.basename(file, '.js');
 
-                    this.filters[basename] = require(`${dir}/${file}`);
+                    this.filters[basename] = require(filepath);
                 }
             }
         );
@@ -149,12 +151,13 @@ class apiServer {
         this.readDir(
             'src/routing/frontControllers',
             (file, dir) => {
-                const stat = fs.statSync(dir + '/' + file);
+                const filepath = `${dir}/${file}`,
+                    stat = fs.statSync(filepath);
 
                 if (stat.isFile()) {
                     const basename = path.basename(file, '.js');
 
-                    this.frontControllers[basename] = require(`${dir}/${file}`);
+                    this.frontControllers[basename] = require(filepath);
                 }
             }
         );
@@ -166,12 +169,13 @@ class apiServer {
         this.readDir(
             'src/controllers',
             (file, dir) => {
-                const stat = fs.statSync(dir + '/' + file);
+                const filepath = `${dir}/${file}`,
+                    stat = fs.statSync(filepath);
 
                 if (stat.isFile()) {
                     const basename = path.basename(file, '.js');
 
-                    this.controllers[basename] = require(`${dir}/${file}`);
+                    this.controllers[basename] = require(filepath);
                 }
             }
         );
@@ -205,6 +209,21 @@ class apiServer {
         if (this.cmdMode) {
             global[name] = variable;
         }
+    }
+
+    generateSwaggerSpec(definition, paths) {
+        const options = {
+            swaggerDefinition: definition,
+            apis: paths
+        };
+
+        return swaggerJsdoc(options);
+    }
+
+    writeSwaggerSpec(definition, paths, writeTo) {
+        const spec = this.generateSwaggerSpec(definition, paths);
+
+        fs.writeFileSync(writeTo, spec);
     }
 }
 
