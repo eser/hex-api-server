@@ -8,7 +8,6 @@ const express = require('express'),
     methodOverride = require('method-override'),
     i18n = require('i18n'),
     deepmerge = require('deepmerge'),
-    swaggerJsdoc = require('swagger-jsdoc'),
     router = require('./router.js'),
     protocolException = require('./exceptions/protocolException.js');
 
@@ -209,21 +208,6 @@ class apiServer {
         if (this.cmdMode) {
             global[name] = variable;
         }
-    }
-
-    generateSwaggerSpec(definition, paths) {
-        const options = {
-            swaggerDefinition: definition,
-            apis: paths
-        };
-
-        return swaggerJsdoc(options);
-    }
-
-    writeSwaggerSpec(definition, paths, writeTo) {
-        const spec = this.generateSwaggerSpec(definition, paths);
-
-        fs.writeFileSync(writeTo, JSON.stringify(spec));
     }
 }
 

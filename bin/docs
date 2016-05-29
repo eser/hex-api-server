@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+'use strict';
+
+if (process.argv.length <= 2) {
+    console.log('Usage: ' + __filename + ' outputFile');
+    process.exit(-1);
+}
+
+const path = require('path'),
+    fs = require('fs');
+
+const cwd = process.cwd(),
+    outputFile = path.join(cwd, process.argv[2]);
+
+const swaggerJsdoc = require('swagger-jsdoc'),
+    swaggerJson = require(path.join(cwd, 'swagger.json'));
+
+const spec = swaggerJsdoc(swaggerJson);
+
+fs.writeFileSync(outputFile, JSON.stringify(spec));

@@ -2,12 +2,24 @@
   "name": "hex-api-server",
   "description": "Hex Api Server",
   "keywords": [],
-  "version": "0.3.3",
+  "version": "0.3.4",
   "homepage": "",
   "author": "Eser Ozvataf <eser@ozvataf.com>",
-  "maintainers": [
-    "Eser Ozvataf <eser@ozvataf.com>"
+  "contributors": [
+    {
+      "name": "Eser Ozvataf",
+      "email": "eser@ozvataf.com",
+      "url": "http://eser.ozvataf.com/"
+    }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eserozvataf/hex-api-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eserozvataf/hex-api-server/issues",
+    "email": "eser@ozvataf.com"
+  },
   "license": "GPL-3.0",
   "main": "./lib/index.js",
   "engines": {
@@ -18,9 +30,12 @@
     "lib": "./lib"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin"
   ],
-  "bin": {},
+  "bin": {
+    "sey": "./bin/sey"
+  },
   "dependencies": {
     "body-parser": "^1.15.0",
     "debug": "^2.2.0",
