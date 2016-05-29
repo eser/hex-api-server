@@ -2,7 +2,7 @@
   "name": "hex-api-server",
   "description": "Hex Api Server",
   "keywords": [],
-  "version": "0.3.1",
+  "version": "0.3.2",
   "homepage": "",
   "author": "Eser Ozvataf <eser@ozvataf.com>",
   "maintainers": [
