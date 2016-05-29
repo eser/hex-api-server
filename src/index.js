@@ -223,7 +223,7 @@ class apiServer {
     writeSwaggerSpec(definition, paths, writeTo) {
         const spec = this.generateSwaggerSpec(definition, paths);
 
-        fs.writeFileSync(writeTo, spec);
+        fs.writeFileSync(writeTo, JSON.stringify(spec));
     }
 }
 
