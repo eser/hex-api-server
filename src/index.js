@@ -195,11 +195,18 @@ class apiServer {
             [ relativePaths ];
 
         for (let relativePath of relativePathsConverted) {
-            const dir = path.join(this.options.dir, relativePath),
-                files = fs.readdirSync(dir);
+            try {
+                const dir = path.join(this.options.dir, relativePath),
+                    files = fs.readdirSync(dir);
 
-            for (let file of files) {
-                callback(file, dir);
+                for (let file of files) {
+                    callback(file, dir);
+                }
+            }
+            catch (ex) {
+                if (ex === undefined || ex === null || ex.code !== 'ENOENT') {
+                    throw ex;
+                }
             }
         }
     }
