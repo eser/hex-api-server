@@ -218,7 +218,7 @@ class apiServer {
                         file: file,
                         filepath: filepath,
                         stat: fs.statSync(filepath),
-                        isDotFile: file.substring(0, 1)
+                        isDotFile: (file.substring(0, 1) === '.')
                     });
                 }
             }
