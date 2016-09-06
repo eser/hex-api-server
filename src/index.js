@@ -118,16 +118,10 @@ class apiServer {
 
         this.config = {};
 
-        this.readDir(
+        this.scanDir(
             [ normalizedCommonPath, normalizedEnvPath ],
             (f) => {
-                if (f.stat.isFile()) {
-                    const basename = path.basename(f.file, '.js');
-
-                    if (f.isDotFile) {
-                        return;
-                    }
-
+                if (f.stat.isFile() && !f.isDotFile && f.extname === '.js') {
                     this.config = deepmerge(this.config, require(f.filepath));
                 }
             }
@@ -135,60 +129,15 @@ class apiServer {
     }
 
     loadFilters() {
-        this.filters = {};
-
-        this.readDir(
-            'src/routing/filters',
-            (f) => {
-                if (f.stat.isFile()) {
-                    const basename = path.basename(f.file, '.js');
-
-                    if (f.isDotFile) {
-                        return;
-                    }
-
-                    this.filters[basename] = require(f.filepath);
-                }
-            }
-        );
+        this.filters = this.scanModules('src/routing/filters');
     }
 
     loadFrontControllers() {
-        this.frontControllers = {};
-
-        this.readDir(
-            'src/routing/frontControllers',
-            (f) => {
-                if (f.stat.isFile()) {
-                    const basename = path.basename(f.file, '.js');
-
-                    if (f.isDotFile) {
-                        return;
-                    }
-
-                    this.frontControllers[basename] = require(f.filepath);
-                }
-            }
-        );
+        this.frontControllers = this.scanModules('src/routing/frontControllers');
     }
 
     loadControllers() {
-        this.controllers = {};
-
-        this.readDir(
-            'src/controllers',
-            (f) => {
-                if (f.stat.isFile()) {
-                    const basename = path.basename(f.file, '.js');
-
-                    if (f.isDotFile) {
-                        return;
-                    }
-
-                    this.controllers[basename] = require(f.filepath);
-                }
-            }
-        );
+        this.controllers = this.scanModules('src/controllers');
     }
 
     addRouter(route, callback) {
@@ -200,7 +149,7 @@ class apiServer {
         routerInstance.finalize();
     }
 
-    readDir(relativePaths, callback) {
+    scanDir(relativePaths, callback) {
         const relativePathsConverted = (relativePaths.constructor === Array) ?
             relativePaths :
             [ relativePaths ];
@@ -211,13 +160,16 @@ class apiServer {
                     files = fs.readdirSync(dir);
 
                 for (let file of files) {
-                    const filepath = `${dir}/${file}`;
+                    const filepath = `${dir}/${file}`,
+                        ext = path.extname(file);
 
                     callback({
-                        dir: dir,
-                        file: file,
                         filepath: filepath,
                         stat: fs.statSync(filepath),
+                        dir: dir,
+                        file: file,
+                        extname: ext,
+                        basename: path.basename(file, ext),
                         isDotFile: (file.substring(0, 1) === '.')
                     });
                 }
@@ -228,6 +180,21 @@ class apiServer {
                 }
             }
         }
+    }
+
+    scanModules(relativePaths) {
+        const loadedModules = {};
+
+        this.scanDir(
+            relativePaths,
+            (f) => {
+                if (f.stat.isFile() && !f.isDotFile && f.extname === '.js') {
+                    loadedModules[f.basename] = require(f.filepath);
+                }
+            }
+        );
+
+        return loadedModules;
     }
 
     register(name, variable) {
