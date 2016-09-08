@@ -12,14 +12,40 @@ This project is designed to serve as a backbone for node.js applications.
 Execute `npm install hex-api-server --save` to install hex-api-center and its dependencies into empty project directory.
 
 
-### Todo List
+## Directory Structure
+
+| Directory                         | Description                                                                |
+|-----------------------------------|----------------------------------------------------------------------------|
+| `/bin/`                           | Executable binaries                                                        |
+| `/build/`                         | Compiled output of project                                                 |
+| `/etc/`                           | Configuration files                                                        |
+| `/public/`                        | Public files for web site                                                  |
+| `/src/`                           | Project source                                                             |
+| `/src/controllers/`               | Controllers                                                                |
+| `/src/data/`                      | Data Layer                                                                 |
+| `/src/data/migrations/`           | Database migrations                                                        |
+| `/src/data/objects/`              | Data objects, wrappers, etc.                                               |
+| `/src/data/providers/`            | Provider classes for 3rd party service integrations                        |
+| `/src/data/repositories/`         | Repository classes for gathering data from a datasource                    |
+| `/src/data/schemas/`              | Data schemas                                                               |
+| `/src/data/utils/`                | Utility classes for Data Layer components                                  |
+| `/src/routing/`                   | Routing definitions                                                        |
+| `/src/routing/filters/`           | Filters (e.g. mutates request to validate authentication)                  |
+| `/src/routing/frontControllers/`  | Redirects requests to internal controllers of project                      |
+| `/src/routing/middlewares/`       | Middlewares                                                                |
+| `/src/utils`                      | Utility classes for entire project                                         |
+| `/test/`                          | Project tests                                                              |
+
+
+## Todo List
 
 See [GitHub Issues](https://github.com/eserozvataf/hex-api-server/issues).
 
 
-### Requirements
+## Requirements
 
 * node.js (https://nodejs.org/)
+
 
 ## License
 
