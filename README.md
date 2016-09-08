@@ -33,13 +33,22 @@ Execute `npm install hex-api-server --save` to install hex-api-center and its de
 | `/src/routing/filters/`           | Filters (e.g. mutates request to validate authentication)                  |
 | `/src/routing/frontControllers/`  | Redirects requests to internal controllers of project                      |
 | `/src/routing/middlewares/`       | Middlewares                                                                |
-| `/src/utils`                      | Utility classes for entire project                                         |
+| `/src/utils/`                     | Utility classes for entire project                                         |
 | `/test/`                          | Project tests                                                              |
 
 
 ## Todo List
 
 See [GitHub Issues](https://github.com/eserozvataf/hex-api-server/issues).
+
+
+## Dependencies
+
+* [maester](https://github.com/eserozvataf/maester)
+* express
+* spdy
+* i18n
+* swagger-jsdoc
 
 
 ## Requirements
