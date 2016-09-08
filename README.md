@@ -58,7 +58,7 @@ See [GitHub Issues](https://github.com/eserozvataf/hex-api-server/issues).
 
 ## License
 
-GNU General Public License 3.0, for further details, please see [LICENSE](LICENSE) file
+Apache 2.0, for further details, please see [LICENSE](LICENSE) file
 
 
 ## Contributing
