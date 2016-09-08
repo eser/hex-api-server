@@ -12,7 +12,7 @@ This project is designed to serve as a backbone for node.js applications.
 Execute `npm install hex-api-server --save` to install hex-api-center and its dependencies into empty project directory.
 
 
-## Directory Structure
+## Directory Structure for Projects
 
 | Directory                         | Description                                                                |
 |-----------------------------------|----------------------------------------------------------------------------|
