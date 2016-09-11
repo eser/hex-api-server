@@ -9,7 +9,7 @@
     "library",
     "framework"
   ],
-  "version": "0.3.24",
+  "version": "0.3.25",
   "homepage": "",
   "author": "Eser Ozvataf <eser@ozvataf.com>",
   "contributors": [
@@ -45,12 +45,12 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
-    "cofounder": "0.0.2",
+    "cofounder": "^0.0.3",
     "debug": "^2.2.0",
     "deepmerge": "^0.2.10",
     "express": "^4.14.0",
     "i18n": "^0.8.3",
-    "maester": "0.0.2",
+    "maester": "^0.0.3",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
     "spdy": "^3.4.0",
