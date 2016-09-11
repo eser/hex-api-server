@@ -2,6 +2,7 @@ const express = require('express'),
     EventEmitter = require('events'),
     path = require('path'),
     fs = require('fs'),
+    cofounder = require('cofounder'),
     maester = require('maester'),
     logger = require('morgan'),
     // cookieParser = require('cookie-parser'),
@@ -118,7 +119,7 @@ class apiServer {
 
         this.config = {};
 
-        this.scanDir(
+        cofounder.scanDir(
             [ normalizedCommonPath, normalizedEnvPath ],
             (f) => {
                 if (f.stat.isFile() && !f.isDotFile && f.extname === '.js') {
@@ -149,43 +150,10 @@ class apiServer {
         routerInstance.finalize();
     }
 
-    scanDir(relativePaths, callback) {
-        const relativePathsConverted = (relativePaths.constructor === Array) ?
-            relativePaths :
-            [ relativePaths ];
-
-        for (let relativePath of relativePathsConverted) {
-            try {
-                const dir = path.join(this.options.dir, relativePath),
-                    files = fs.readdirSync(dir);
-
-                for (let file of files) {
-                    const filepath = `${dir}/${file}`,
-                        ext = path.extname(file);
-
-                    callback({
-                        filepath: filepath,
-                        stat: fs.statSync(filepath),
-                        dir: dir,
-                        file: file,
-                        extname: ext,
-                        basename: path.basename(file, ext),
-                        isDotFile: (file.substring(0, 1) === '.')
-                    });
-                }
-            }
-            catch (ex) {
-                if (ex === undefined || ex === null || ex.code !== 'ENOENT') {
-                    throw ex;
-                }
-            }
-        }
-    }
-
     scanModules(relativePaths) {
         const loadedModules = {};
 
-        this.scanDir(
+        cofounder.scanDir(
             relativePaths,
             (f) => {
                 if (f.stat.isFile() && !f.isDotFile && f.extname === '.js') {
